@@ -1,14 +1,30 @@
-let chatContent = document.querySelector(".chat-content");
-let chatForm = document.querySelector(".chat-form");
-let chatFormInput = chatForm.querySelector(".chat-form-input");
-let template = document.querySelector("#message-template").content;
-let messageTemplate = template.querySelektor(".chat-message-text");
-let chatMessage = template.querySelektor(".chat-message");
+const chatContainer = document.querySelector('.chat-content');
+const messages = chatContainer.children;
+const newMessageForm = document.querySelector('.chat-form');
+const newMessageInput = newMessageForm.querySelector('.chat-form-input');
+const messageTemplate = document.querySelector('#message-template').content;
+const newMessageTemplate = messageTemplate.querySelector('.chat-message');
 
-chatForm.addEventListener('submit', function (evt) {
+newMessageForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  let chatText = chatFormInput.value;
-  let messageBlock = messageTemplate.cloneNode(true);
-  messageTemplate.textContent = chatText;
-  chatContent.appendChild(messageBlock);
-})
+
+  const messageText = newMessageInput.value;
+  const newMessage = newMessageTemplate.cloneNode(true);
+  const newMessageText = newMessage.querySelector('.chat-message-text');
+
+  newMessageText.textContent = messageText;
+  chatContainer.appendChild(newMessage);
+  messageDelete(newMessage);
+  newMessageInput.value = '';
+});
+
+const messageDelete = function (message) {
+  const close = message.querySelector('.chat-message-button');
+  close.addEventListener('click', () => {
+    message.remove();
+  });
+};
+
+for (let i = 0; i < messages.length; i++) {
+  messageDelete.messages[i];
+};
