@@ -8,22 +8,18 @@ const getRandomFloat = (...args) => {
   const pow = Math.pow(10, dec);
   return Math.round((Math.random() * (max - min) + min) * pow) / pow;
 };
-
 getRandomFloat(2, 5, 2);
 
 const getRandomNumber = (min, max) => getRandomFloat(min, max, 0);
-
 getRandomNumber(2, 5);
 
-const LINK_MIN = 1;
+const NUMBER_MIN = 1;
 const LINK_MAX = 8;
-const createAuthor = () => ({
-  avatar: `img/avatars/user0${getRandomNumber(LINK_MIN, LINK_MAX)}.png`,
+const createLinkPhotoAuthor = () => ({
+  avatar: `img/avatars/user0${getRandomNumber(NUMBER_MIN, LINK_MAX)}.png`,
 });
 
-const NUMBER_MIN = 1;
 const NUMBER_MAX = 100;
-
 const createNumber = () => getRandomNumber(NUMBER_MIN, NUMBER_MAX);
 
 const TYPE = [
@@ -46,7 +42,7 @@ const CHECKOUT = [
   '14:00',
 ];
 
-const creatFields = (element) => element[getRandomNumber(NUMBER_MIN, element.length)];
+const creatFieldsRandom = (element) => element[getRandomNumber(NUMBER_MIN, element.length)];
 
 const FEATURES = [
   'wifi',
@@ -72,37 +68,33 @@ const createArrayRandom = (element) => {
   return array;
 };
 
-const createOffer = () => ({
+const createListOffer = () => ({
   title: 'Уютная квартира',
   address: 'location.x, location.y',
   price: createNumber(),
-  type: creatFields(TYPE),
+  type: creatFieldsRandom(TYPE),
   rooms: createNumber(),
   guests: createNumber(),
-  checkin: creatFields(CHECKIN),
-  checkout: creatFields(CHECKOUT),
+  checkin: creatFieldsRandom(CHECKIN),
+  checkout: creatFieldsRandom(CHECKOUT),
   features: createArrayRandom(FEATURES),
   description: 'Офигительное жильё',
   photos: createArrayRandom(PHOTOS),
 });
-
-const NUMBER_FILDS = 12;
-
-const offer = new Array(NUMBER_FILDS).fill(null).map(() => createOffer());
 
 const LOCATION_LAT_MIN = 35.65000;
 const LOCATION_LAT_MAX = 35.70000;
 const LOCATION_LNG_MIN = 139.70000;
 const LOCATION_LNG_MAX = 139.80000;
 const LIMIT_SINGS = 5;
-const createLocation = () => ({
+const createLocationСoordinates = () => ({
   lat: getRandomFloat(LOCATION_LAT_MIN, LOCATION_LAT_MAX, LIMIT_SINGS),
   lng: getRandomFloat(LOCATION_LNG_MIN, LOCATION_LNG_MAX, LIMIT_SINGS),
 });
 
 const createAdv = () => ({
-  author: createAuthor(),
-  offer: createOffer(),
-  location: createLocation(),
+  author: createLinkPhotoAuthor(),
+  offer: createListOffer(),
+  location: createLocationСoordinates(),
 });
 createAdv();
