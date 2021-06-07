@@ -22,7 +22,7 @@ const TYPES = [
   'house',
   'bungalow',
   'hotel',
-]
+];
 const CHECKINS = [
   '12:00',
   '13:00',
@@ -79,13 +79,14 @@ const createArrayRandom = (element) => {
   }
   return array;
 };
-
+const latLocation = getRandomFloat(LOCATION_LAT_MIN, LOCATION_LAT_MAX, LIMIT_SINGS);
+const lngLocation = getRandomFloat(LOCATION_LNG_MIN, LOCATION_LNG_MAX, LIMIT_SINGS);
 const createLocationСoordinates = () => ({
-  lat: getRandomFloat(LOCATION_LAT_MIN, LOCATION_LAT_MAX, LIMIT_SINGS),
-  lng: getRandomFloat(LOCATION_LNG_MIN, LOCATION_LNG_MAX, LIMIT_SINGS),
+  lat: latLocation,
+  lng: lngLocation,
 });
 
-const getAddress = () => `${createLocationСoordinates().lat}.` + 'x' + `,${createLocationСoordinates().lng}.` + 'y';
+const getAddress = () => `${latLocation}.x , ${lngLocation}.y`;
 
 const createListOffer = () => ({
   title: getRandomItem(TITLES),
@@ -101,9 +102,14 @@ const createListOffer = () => ({
   photos: createArrayRandom(PHOTOS),
 });
 
+const getAvatar = () => ({
+  avatar: createAuthorUrl(AVATAR_LENGTH),
+});
+
 const getData = () => ({
-  avtor: createAuthorUrl(AVATAR_LENGTH),
-  offer: createListOffer(),
+  author: getAvatar(),
+  offert: createListOffer(),
   location: createLocationСoordinates(),
 });
+
 getData();
