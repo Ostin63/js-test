@@ -69,47 +69,41 @@ const getRandomNumber = (min, max) => getRandomFloat(min, max, 0);
 const padLeft = (index) => String(index).padStart(2, '0');
 const createAuthorUrl = (index) => `img/avatars/user${padLeft(index)}.png`;
 
-const getRandomItem = (element) => element[Math.floor(Math.random() * element.length)];
+const getRandomItem = (object) => object[getRandomNumber(NUMBER_MIN, object.length - 1)];
 
-const createArrayRandom = (element) => {
-  const random = () => Math.random() < 0.5;
-  const array = element.filter(random);
-  if (array < 1) {
-    Math.random() * (element.length);
+const random = () => Math.random() < 0.5;
+const createArrayRandom = (object) => {
+  const array = object.filter(random);
+  if (array.length < 1) {
+    Math.random() * (object.length);
   }
   return array;
 };
+
 const latLocation = getRandomFloat(LOCATION_LAT_MIN, LOCATION_LAT_MAX, LIMIT_SINGS);
 const lngLocation = getRandomFloat(LOCATION_LNG_MIN, LOCATION_LNG_MAX, LIMIT_SINGS);
-const createLocationСoordinates = () => ({
-  lat: latLocation,
-  lng: lngLocation,
-});
-
-const getAddress = () => `${latLocation}.x , ${lngLocation}.y`;
-
-const createListOffer = () => ({
-  title: getRandomItem(TITLES),
-  address: getAddress(),
-  price: getRandomNumber(MIN_INDEX, PRICE_MAX),
-  type: getRandomItem(TYPES),
-  rooms: getRandomNumber(NUMBER_MIN, ROOM_MAX),
-  guests: getRandomNumber(NUMBER_MIN, GUESTS_MAX),
-  checkin: getRandomItem(CHECKINS),
-  checkout: getRandomItem(CHECKOUTS),
-  features: createArrayRandom(FEATURES),
-  description: getRandomItem(DESCRIPTIONS),
-  photos: createArrayRandom(PHOTOS),
-});
-
-const getAvatar = () => ({
-  avatar: createAuthorUrl(AVATAR_LENGTH),
-});
 
 const getData = () => ({
-  author: getAvatar(),
-  offert: createListOffer(),
-  location: createLocationСoordinates(),
+  author: {
+    avatar: createAuthorUrl(AVATAR_LENGTH),
+  },
+  offer: {
+    title: getRandomItem(TITLES),
+    address: `${latLocation}.x , ${lngLocation}.y`,
+    price: getRandomNumber(MIN_INDEX, PRICE_MAX),
+    type: getRandomItem(TYPES),
+    rooms: getRandomNumber(NUMBER_MIN, ROOM_MAX),
+    guests: getRandomNumber(NUMBER_MIN, GUESTS_MAX),
+    checkin: getRandomItem(CHECKINS),
+    checkout: getRandomItem(CHECKOUTS),
+    features: createArrayRandom(FEATURES),
+    description: getRandomItem(DESCRIPTIONS),
+    photos: createArrayRandom(PHOTOS),
+  },
+  location: {
+    lat: latLocation,
+    lng: lngLocation,
+  },
 });
 
 getData();
