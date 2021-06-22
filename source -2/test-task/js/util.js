@@ -33,11 +33,10 @@ const createArrayRandom = (items) => {
   if (array.length < 1) {
     Math.random() * (items.length);
   }
-
   return array;
 };
 
-const creatPluralNames = (value, words) => {
+const createPluralNames = (value, words) => {
   value = Math.abs(value) % 100;
   const num = value % 10;
   if (value > 10 && value < 20) { return words[2]; }
@@ -52,5 +51,5 @@ export {
   createAuthorUrl,
   getRandomItem,
   createArrayRandom,
-  creatPluralNames
+  createPluralNames
 };
