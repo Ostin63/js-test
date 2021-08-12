@@ -45,11 +45,40 @@ const createPluralNames = (value, words) => {
   return words[2];
 };
 
+const fillBy = (callBack, number) => {
+  const value = [];
+  for (let idx = 0; idx < number; idx++) {
+    value.push(callBack(idx + 1));
+  }
+  return value;
+};
+
+const getTemplateContent = (block, item) =>
+  block.querySelector(`#${item}`)
+    .content
+    .querySelector(`.${item}`);
+
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+const isFunction = (arg) => typeof arg === 'function';
+function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
 export {
   getRandomFloat,
   getRandomNumber,
   createAuthorUrl,
   getRandomItem,
   createArrayRandom,
-  createPluralNames
+  createPluralNames,
+  fillBy,
+  isEscEvent,
+  isFunction,
+  getTemplateContent,
+  debounce
 };

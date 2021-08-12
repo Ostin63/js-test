@@ -2,7 +2,23 @@ import {
   AD_FORM
 } from './constants.js';
 
-const MAP_FILTERS = document.querySelector('.map__filters');
+import {
+  isEscEvent
+} from './util.js';
+
+const SHOW__TIME = 5000;
+
+const getTemplateContent = (block, item) =>
+  block.querySelector(`#${item}`)
+    .content
+    .querySelector(`.${item}`);
+
+const BODY = document.querySelector('body');
+const MAP_FILTERS = BODY.querySelector('.map__filters');
+const SUCCESS = getTemplateContent(BODY, 'success');
+const ERROR__LOAD = getTemplateContent(BODY, 'error-loading');
+const ERROR = getTemplateContent(BODY, 'error');
+const ERROR_BUTTON = BODY.querySelector('.error__button');
 
 const FORMS = [
   {
@@ -27,7 +43,7 @@ const removeExtra = (elements, elementClasses) => {
 };
 
 const fillPhotoOrDelete = (photos, block, element) => {
-  if (photos.length === 0) {
+  if (!photos || photos.length === 0) {
     element.remove();
   } else {
     photos.forEach((photo) => {
@@ -66,9 +82,58 @@ const toggleForms = (enable) => {
 const deactiveForms = () => toggleForms(false);
 const activeForms = () => toggleForms(true);
 
+const onError = () => {
+  const cloneError = ERROR__LOAD.cloneNode(true);
+  setTimeout(BODY.append(cloneError), SHOW__TIME);
+};
+
+const successElement = SUCCESS.cloneNode(true);
+const removeSuccess = () => {
+  successElement.remove();
+  document.removeEventListener('click', removeSuccess);
+};
+
+const removeElementEsc = () => {
+  if (isEscEvent) {
+    removeSuccess();
+    document.removeEventListener('keydown', removeElementEsc);
+  }
+};
+
+const alertSuccess = () => {
+  BODY.append(successElement);
+  document.addEventListener('keydown', removeElementEsc);
+  document.addEventListener('click', removeSuccess);
+};
+
+const errorElement = ERROR.cloneNode(true);
+const removeError = () => {
+  errorElement.remove();
+  document.removeEventListener('click', removeError);
+  ERROR_BUTTON.removeEventListener('click', removeError);
+
+};
+
+const removeErrorEsc = () => {
+  if (isEscEvent) {
+    removeError();
+    document.removeEventListener('keydown', removeErrorEsc);
+  }
+};
+
+const alertError = () => {
+  BODY.append(errorElement);
+  document.addEventListener('keydown', removeErrorEsc);
+  document.addEventListener('click', removeError);
+  ERROR_BUTTON.addEventListener('click', removeError);
+};
+
 export {
   removeExtra,
   fillPhotoOrDelete,
   deactiveForms,
-  activeForms
+  activeForms,
+  onError,
+  alertSuccess,
+  alertError
 };
